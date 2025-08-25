@@ -7,6 +7,7 @@ export interface IGetUserInfoDTO {
 }
 
 export type GetUserInfo = () => IGetUserInfoDTO;
+
 export const getUserInfo = (): IGetUserInfoDTO => ({
   userName: os.userInfo().username,
   platform: os.platform(),

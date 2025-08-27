@@ -7,6 +7,8 @@
     "src/preload/*.d.ts",
 
     // For compatibility with vite-plugin-checker
+    "src/shared/**/*",
+    "src/lib/**/*",
     "src/main/**/*",
     "src/preload/**/*"
   ],
@@ -17,6 +19,9 @@
     "paths": {
       "@renderer/*": [
         "src/renderer/src/*"
+      ],
+      "@lib": [
+        "src/lib/index"
       ]
     }
   }

@@ -1,10 +1,10 @@
-import type { IApi } from './api';
+import type { IElectronApi } from './api';
 
 declare global {
   interface Window {
     electron: {
       versions: NodeJS.ProcessVersions;
     };
-    api: IApi;
+    electronApi: IElectronApi;
   }
 }

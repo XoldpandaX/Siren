@@ -1,8 +1,16 @@
-import { JSX, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
+import { IGetUserInfoDTO } from '../../../shared';
 
 export const Versions = (): JSX.Element => {
   const [versions] = useState(window.electron.versions);
-  console.info(window.api.userInfo.getUserInfo());
+  const [, setUserInfo] = useState<IGetUserInfoDTO | null>(null);
+
+  useEffect(() => {
+    window.electronApi.user.getInfo().then((user) => {
+      setUserInfo(user);
+      console.info(user);
+    });
+  }, []);
 
   return (
     <ul className="versions">

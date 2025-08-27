@@ -1,6 +1,8 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { ipcHandlers } from './ipc-handlers';
+// @ts-ignore: all is ok, just mute TS
 import icon from '../../resources/icon.png?asset';
 
 const isLinux = process.platform === 'linux';
@@ -14,7 +16,7 @@ function createWindow(): void {
     ...(isLinux ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false,
+      sandbox: true,
       contextIsolation: true,
       nodeIntegration: false,
       backgroundThrottling: false,
@@ -60,6 +62,13 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'));
+
+  // IPC handlers
+  for (const channel of Object.keys(ipcHandlers) as Array<keyof typeof ipcHandlers>) {
+    const ipcHandler = ipcHandlers[channel];
+
+    ipcMain.handle(channel, ipcHandler);
+  }
 
   createWindow();
 

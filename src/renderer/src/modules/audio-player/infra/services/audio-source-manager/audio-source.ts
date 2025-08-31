@@ -1,16 +1,8 @@
 import { Howl } from 'howler';
-
-export interface IAudioSource {
-  play(): void;
-  pause(): void;
-  stop(): void;
-}
-
-type AudioSourceConfig = Partial<{
-  onEnd(): void;
-  onStop(): void;
-  onTimeUpdate(seconds: number): void;
-}>;
+import type {
+  IAudioSource,
+  AudioSourceConfig,
+} from '../../../application/ports/services/i-audio-source';
 
 export class AudioSource implements IAudioSource {
   private _id: number | null = null;
@@ -58,6 +50,10 @@ export class AudioSource implements IAudioSource {
     this._source.stop(this._id);
     this._id = null;
     this.cancelProgress();
+  }
+
+  public dispose(): void {
+    this._source.unload();
   }
 
   private updateProgress(): void {

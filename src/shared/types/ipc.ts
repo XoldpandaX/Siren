@@ -1,4 +1,4 @@
-import { IGetUserInfoDTO } from './dtos';
+import type { IGetUserInfoDTO } from './dtos';
 
 export interface IpcChannelMap {
   'user:getInfo': { args: void; return: IGetUserInfoDTO };

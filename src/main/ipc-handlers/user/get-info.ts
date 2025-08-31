@@ -1,5 +1,5 @@
 import os from 'node:os';
-import { IGetUserInfoDTO } from '../../../shared';
+import { type IGetUserInfoDTO } from '../../../shared';
 
 export const getInfo = (): IGetUserInfoDTO => ({
   userName: os.userInfo().username,

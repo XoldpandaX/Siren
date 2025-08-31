@@ -1,0 +1,19 @@
+.play-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  width: 45px;
+  height: 45px;
+  font-weight: var(--font-weight-base);
+  line-height: var(--line-height-base);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+.play-button:hover {
+  transform: scale(1.05); /* increase size by 5% */
+}

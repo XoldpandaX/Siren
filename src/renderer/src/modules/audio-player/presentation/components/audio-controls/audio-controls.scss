@@ -1,0 +1,7 @@
+.audio-controls {
+  &__button {
+    &--not-active {
+      opacity: .5;
+    }
+  }
+}

@@ -1,5 +1,5 @@
-import { JSX, useEffect, useState } from 'react';
-import { IGetUserInfoDTO } from '../../../shared';
+import { type JSX, useEffect, useState } from 'react';
+import { type IGetUserInfoDTO } from '../../../shared';
 
 export const Versions = (): JSX.Element => {
   const [versions] = useState(window.electron.versions);

@@ -15,10 +15,17 @@ export default defineConfig({
       alias: {
         '@renderer': resolve('src/renderer/src'),
         '@lib': resolve('src/lib'),
+        '@shared': resolve('src/shared'),
       },
     },
     plugins: [
-      react(),
+      react({
+        babel: {
+          parserOpts: {
+            plugins: ['decorators-legacy'],
+          },
+        },
+      }),
       vitePluginChecker({
         typescript: {
           tsconfigPath: resolve(__dirname, './tsconfig.web.json'),

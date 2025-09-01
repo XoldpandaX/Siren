@@ -8,21 +8,25 @@ export interface IAudioTrack {
   year: number;
   duration: number;
   playbackPosition: number;
+  playbackProgress: number;
 }
 
 export const createAudioTrack = (
-  audioTrack: Omit<IAudioTrack, 'playbackPosition'>
+  audioTrack: Omit<IAudioTrack, 'playbackPosition' | 'playbackProgress'>
 ): IAudioTrack => {
   return {
     ...audioTrack,
     playbackPosition: 0,
+    playbackProgress: 0,
   };
 };
 
-export const updateAudioTrackPlaybackPosition = (
+export const updateAudioTrackPlayback = (
   audioTrack: IAudioTrack,
   playbackPosition: number
-): IAudioTrack => ({ ...audioTrack, playbackPosition });
-
-export const getPlaybackProgress = (audioTrack: IAudioTrack): number =>
-  (audioTrack.playbackPosition / audioTrack.duration) * 100;
+): IAudioTrack => ({
+  ...audioTrack,
+  playbackPosition,
+  playbackProgress:
+    playbackPosition !== 0 ? (audioTrack.playbackPosition / audioTrack.duration) * 100 : 0,
+});

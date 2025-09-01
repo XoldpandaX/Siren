@@ -1,10 +1,9 @@
 import { dialog } from 'electron';
 import { promises as fs } from 'node:fs';
 import { parseFile } from 'music-metadata';
+import type { IAudioTrackDTO } from '@shared/types';
 
-export const openFile = async (): Promise<
-  { mimeType: string; buffer: Buffer<ArrayBufferLike> } | undefined
-> => {
+export const openFile = async (): Promise<IAudioTrackDTO | undefined> => {
   const result = await dialog.showOpenDialog({
     properties: ['openFile'],
     filters: [{ name: 'Audio Files', extensions: ['mp3', 'flac', 'wav'] }],
@@ -17,15 +16,22 @@ export const openFile = async (): Promise<
 
   const filePath = result.filePaths[0];
   const metadata = await parseFile(filePath);
+  const audioBuffer = await fs.readFile(filePath);
   console.info(filePath);
   console.info(metadata);
   console.info(filePath);
 
-  const buffer = await fs.readFile(filePath);
-
   return {
+    id: 'some id',
+    path: filePath,
     mimeType: getMimeTypeByCodec(metadata.format.codec),
-    buffer,
+    audioBuffer,
+    no: metadata.common.track.no,
+    artist: metadata.common.artist || null,
+    title: metadata.common.title || null,
+    album: metadata.common.album || null,
+    year: metadata.common.year || null,
+    duration: metadata.format.duration || null,
   };
 };
 
@@ -38,5 +44,3 @@ function getMimeTypeByCodec(codec: string | undefined): string {
 
   return codec ? map[codec] : '';
 }
-
-// /home/den/Music/Bands/W.A.S.P/Studio albums/1984 - WASP/01 I Wanna Be Somebody.mp3

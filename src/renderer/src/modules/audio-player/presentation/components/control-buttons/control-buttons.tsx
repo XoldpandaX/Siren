@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { PlayButton } from '@shared/ui-kit';
-import { useControllersProvider } from '@renderer/modules/audio-player/presentation/providers/controllers-provider/use-provider';
+import { useControllersProvider } from '../../providers/controllers-provider/use-provider';
 
 import './control-buttons.scss';
 

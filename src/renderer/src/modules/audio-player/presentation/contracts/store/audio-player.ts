@@ -1,10 +1,12 @@
+import type { IAudioTrack } from '../../../domain/entities/i-audio-track';
+
 export type AudioPlayerStoreState = {
-  currentTrack: string;
+  currentTrack: IAudioTrack | null;
   isPlaying: boolean;
 };
 
 export type AudioPlayerStoreActions = {
-  setCurrentTrack: (track: string) => void;
+  setCurrentTrack: (audioTrack: IAudioTrack) => void;
   setIsPlaying: (isPlaying: boolean) => void;
 };
 

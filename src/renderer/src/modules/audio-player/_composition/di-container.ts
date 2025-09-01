@@ -11,6 +11,8 @@ import type { IPauseTrackUseCase } from '../domain/use-cases/i-pause-track-use-c
 import { PauseTrackUseCase } from '../application/use-cases/pause-track-use-case';
 import type { IStopTrackUseCase } from '../domain/use-cases/i-stop-track-use-case';
 import { StopTrackUseCase } from '../application/use-cases/stop-track-use-case';
+import type { IUpdateTrackPlaybackPosition } from '../domain/use-cases/i-update-track-playback-position';
+import { UpdateTrackPlaybackPosition } from '../application/use-cases/update-track-playback-position';
 import type { IAudioPlayerStoreAdapter } from '../presentation/contracts/store/audio-player';
 import { createAudioPlayerStoreAdapter } from '../presentation/store/audio-player-store-adapter';
 import type { IAudioPlayerActionsController } from '../presentation/contracts/controllers/i-audio-player-controller';
@@ -42,6 +44,9 @@ function bindApplication(c: Container): void {
     .inTransientScope();
   c.bind<IStopTrackUseCase>(diTokens.STOP_TRACK_USE_CASE).to(StopTrackUseCase).inTransientScope();
   c.bind<ILoadTrackUseCase>(diTokens.LOAD_TRACK_USE_CASE).to(LoadTrackUseCase).inTransientScope();
+  c.bind<IUpdateTrackPlaybackPosition>(diTokens.UPDATE_TRACK_PLAYBACK_POSITION_USE_CASE)
+    .to(UpdateTrackPlaybackPosition)
+    .inTransientScope();
 }
 
 function bindPresentation(c: Container): void {

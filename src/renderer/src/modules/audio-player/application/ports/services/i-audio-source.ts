@@ -12,5 +12,8 @@ export type AudioSourceConfig = Partial<{
 }>;
 
 export interface IAudioSourceManager extends Omit<IAudioSource, 'dispose'> {
-  load(path: string, config: AudioSourceConfig): void;
+  load(
+    source: { audioBuffer: Buffer<ArrayBufferLike>; mimeType: string },
+    config: AudioSourceConfig
+  ): void;
 }

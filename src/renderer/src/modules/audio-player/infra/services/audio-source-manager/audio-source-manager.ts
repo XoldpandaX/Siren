@@ -4,19 +4,23 @@ import type {
   AudioSourceConfig,
 } from '../../../application/ports/services/i-audio-source';
 import { AudioSource } from './audio-source';
+import { createAudioUrl } from '../../utils/create-audio-url';
 
 type ActionType = 'play' | 'pause' | 'stop';
 
 export class AudioSourceManager implements IAudioSourceManager {
   private _audio: IAudioSource | null = null;
 
-  public load(path: string, config: AudioSourceConfig): void {
+  public load(
+    source: { audioBuffer: Buffer<ArrayBufferLike>; mimeType: string },
+    config: AudioSourceConfig
+  ): void {
     if (this._audio) {
       this._audio.dispose();
       this._audio = null;
     }
 
-    this._audio = new AudioSource(path, config);
+    this._audio = new AudioSource(createAudioUrl(source.audioBuffer, source.mimeType), config);
     this._audio.play();
   }
 

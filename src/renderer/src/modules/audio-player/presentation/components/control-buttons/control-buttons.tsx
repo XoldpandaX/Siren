@@ -1,16 +1,16 @@
 import { type FC } from 'react';
 import { PlayButton } from '@shared/ui-kit';
-
-import './audio-controls.scss';
 import { useControllersProvider } from '@renderer/modules/audio-player/presentation/providers/controllers-provider/use-provider';
 
-export const AudioControls: FC = () => {
+import './control-buttons.scss';
+
+export const ControlButtons: FC = () => {
   const { audioPlayerController } = useControllersProvider();
 
   const isPlaying = audioPlayerController.useIsPlaying();
 
   return (
-    <div className="audio-controls">
+    <div className="control-buttons">
       <PlayButton
         isPaused={!isPlaying}
         onPlayClick={audioPlayerController.playTrack}

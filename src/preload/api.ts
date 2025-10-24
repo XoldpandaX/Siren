@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { type IpcChannelMap } from '../shared';
+import { type IpcChannelMap } from '../shared/types';
 
 function invoke<K extends keyof IpcChannelMap>(
   channel: K,

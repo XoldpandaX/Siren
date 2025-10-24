@@ -1,15 +1,16 @@
 import { injectable, inject } from 'inversify';
+import type { IAudioEngine } from '@shared/types';
 import type { IStopTrackUseCase } from '../../domain/use-cases/i-stop-track-use-case';
-import type { IAudioSourceManager } from '../ports/services/i-audio-source';
 import { diTokens } from '../../_composition/tokens';
 
 @injectable()
 export class StopTrackUseCase implements IStopTrackUseCase {
   public constructor(
-    @inject(diTokens.AUDIO_SOURCE_MANAGER) private readonly _audioSourceManager: IAudioSourceManager
+    @inject(diTokens.AUDIO_ENGINE)
+    private readonly _audioEngine: IAudioEngine
   ) {}
 
   public exec(): void {
-    this._audioSourceManager.stop();
+    this._audioEngine.stop();
   }
 }

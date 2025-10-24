@@ -1,9 +1,8 @@
-import type { IUseCase } from '@lib';
+import type { IUseCase } from '@lib/clean';
+import type { IAudioTrack } from '../entities/i-audio-track';
 
-export type Config = Partial<{
-  onEnd(): void;
-  onStop(): void;
+export type Config = {
   onTimeUpdate(seconds: number): void;
-}>;
+};
 
-export interface ILoadTrackUseCase extends IUseCase<Promise<void>, { config?: Config }> {}
+export interface ILoadTrackUseCase extends IUseCase<Promise<IAudioTrack>, Config> {}

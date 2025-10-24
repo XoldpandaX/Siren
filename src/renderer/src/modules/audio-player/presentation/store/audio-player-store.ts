@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
+import type { IAudioTrack } from '../../domain/entities/i-audio-track';
 import type {
   AudioPlayerStoreState,
   AudioPlayerStoreActions,
 } from '../contracts/store/audio-player';
 
 const initialState: AudioPlayerStoreState = {
-  currentTrack: '',
+  currentTrack: null,
   isPlaying: false,
 };
 
@@ -20,10 +21,10 @@ export const useAudioPlayerStore = create<AudioPlayerStoreState & AudioPlayerSto
       ...initialState,
 
       // Actions
-      setCurrentTrack: (currentTrack: string) => {
+      setCurrentTrack: (audioTrack: IAudioTrack) => {
         set(
           (state) => {
-            state.currentTrack = currentTrack;
+            state.currentTrack = audioTrack;
           },
           undefined,
           getActionType('setCurrentTrack')

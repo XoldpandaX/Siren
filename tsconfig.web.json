@@ -22,8 +22,8 @@
       "@renderer/*": [
         "src/renderer/src/*"
       ],
-      "@lib": [
-        "src/lib/index"
+      "@lib/*": [
+        "src/lib/*"
       ],
       "@shared/*": [
         "src/shared/*"

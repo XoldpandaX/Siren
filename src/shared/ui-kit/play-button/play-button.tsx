@@ -9,14 +9,20 @@ type PlayButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   onPauseClick: () => void;
 };
 
-export const PlayButton: FC<PlayButtonProps> = (props) => {
+export const PlayButton: FC<PlayButtonProps> = ({
+  isPaused,
+  onPlayClick,
+  onPauseClick,
+  ...rest
+}) => {
   return (
     <button
       type="button"
       className="play-button"
-      onClick={props.isPaused ? props.onPlayClick : props.onPauseClick}
+      onClick={isPaused ? onPlayClick : onPauseClick}
+      {...rest}
     >
-      {<Icon name={props.isPaused ? 'play' : 'pause'} size="25" />}
+      {<Icon name={isPaused ? 'play' : 'pause'} size="25" />}
     </button>
   );
 };

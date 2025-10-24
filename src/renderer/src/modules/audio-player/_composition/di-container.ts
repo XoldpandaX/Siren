@@ -1,6 +1,5 @@
 import { Container } from 'inversify';
-import type { IAudioSourceManager } from '../application/ports/services/i-audio-source';
-import { AudioSourceManager } from '../infra/services/audio-source-manager';
+import { type IAudioEngine } from '@shared/types';
 import type { IMediaLibraryRepository } from '../application/ports/repositories/i-media-library-repository';
 import { MediaLibraryRepository } from '../infra/repositories/media-library-repository';
 import type { ILoadTrackUseCase } from '../domain/use-cases/i-load-track-use-case';
@@ -11,14 +10,19 @@ import type { IPauseTrackUseCase } from '../domain/use-cases/i-pause-track-use-c
 import { PauseTrackUseCase } from '../application/use-cases/pause-track-use-case';
 import type { IStopTrackUseCase } from '../domain/use-cases/i-stop-track-use-case';
 import { StopTrackUseCase } from '../application/use-cases/stop-track-use-case';
+import type { ISeekTrackUseCase } from '../domain/use-cases/i-seek-track-use-case';
+import { SeekTrackUseCase } from '../application/use-cases/seek-track-use-case';
+import type { IUpdateTrackPlaybackPosition } from '../domain/use-cases/i-update-track-playback-position';
+import { UpdateTrackPlaybackPosition } from '../application/use-cases/update-track-playback-position';
 import type { IAudioPlayerStoreAdapter } from '../presentation/contracts/store/audio-player';
 import { createAudioPlayerStoreAdapter } from '../presentation/store/audio-player-store-adapter';
 import type { IAudioPlayerActionsController } from '../presentation/contracts/controllers/i-audio-player-controller';
 import { AudioPlayerActionsController } from '../presentation/controllers/audio-player-actions-controller';
 import { diTokens } from './tokens';
 
-export const createDiContainer = (): Container => {
+export const createDiContainer = (audioEngine: IAudioEngine): Container => {
   const container: Container = new Container();
+  bindExternals({ audioEngine }, container);
   bindInfra(container);
   bindApplication(container);
   bindPresentation(container);
@@ -26,10 +30,11 @@ export const createDiContainer = (): Container => {
   return container;
 };
 
+function bindExternals(deps: { audioEngine: IAudioEngine }, c: Container): void {
+  c.bind<IAudioEngine>(diTokens.AUDIO_ENGINE).toConstantValue(deps.audioEngine);
+}
+
 function bindInfra(c: Container): void {
-  c.bind<IAudioSourceManager>(diTokens.AUDIO_SOURCE_MANAGER)
-    .to(AudioSourceManager)
-    .inSingletonScope();
   c.bind<IMediaLibraryRepository>(diTokens.MEDIA_LIBRARY_REPOSITORY)
     .to(MediaLibraryRepository)
     .inTransientScope();
@@ -42,6 +47,10 @@ function bindApplication(c: Container): void {
     .inTransientScope();
   c.bind<IStopTrackUseCase>(diTokens.STOP_TRACK_USE_CASE).to(StopTrackUseCase).inTransientScope();
   c.bind<ILoadTrackUseCase>(diTokens.LOAD_TRACK_USE_CASE).to(LoadTrackUseCase).inTransientScope();
+  c.bind<ISeekTrackUseCase>(diTokens.SEEK_TRACK_USE_CASE).to(SeekTrackUseCase).inTransientScope();
+  c.bind<IUpdateTrackPlaybackPosition>(diTokens.UPDATE_TRACK_PLAYBACK_POSITION_USE_CASE)
+    .to(UpdateTrackPlaybackPosition)
+    .inTransientScope();
 }
 
 function bindPresentation(c: Container): void {

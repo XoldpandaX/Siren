@@ -31,7 +31,7 @@ export default tseslint.config(
       '@typescript-eslint/naming-convention': [
         'error',
         {
-          selector: 'property',
+          selector: ['property', 'parameterProperty'],
           modifiers: ['private'],
           format: ['camelCase'],
           leadingUnderscore: 'require',

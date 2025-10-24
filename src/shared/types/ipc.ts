@@ -1,10 +1,10 @@
-import type { IGetUserInfoDTO } from './dtos';
+import type { IGetUserInfoDTO, IAudioTrackDTO } from './dtos';
 
 export interface IpcChannelMap {
   'user:getInfo': { args: void; return: IGetUserInfoDTO };
   'dialog:openFile': {
     args: void;
-    return: Promise<{ mimeType: string; buffer: Buffer<ArrayBufferLike> } | undefined>;
+    return: Promise<IAudioTrackDTO | undefined>;
   };
 }
 

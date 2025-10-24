@@ -1,4 +1,4 @@
-import { type IpcHandlers } from '../../shared';
+import { type IpcHandlers } from '../../shared/types';
 import { getInfo } from './user/get-info';
 import { openFile } from './dialog/open-file';
 

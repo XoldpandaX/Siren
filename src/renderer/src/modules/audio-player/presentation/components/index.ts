@@ -1,1 +1,2 @@
-export { AudioControls } from './audio-controls/audio-controls';
+export { ControlButtons } from './control-buttons/control-buttons';
+export { SeekBar } from './seek-bar/seek-bar';

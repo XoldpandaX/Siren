@@ -7,8 +7,8 @@ export interface IResolver {
 }
 
 export class Resolver implements IResolver {
-  public constructor(private readonly diContainer: Container) {}
+  public constructor(private readonly _diContainer: Container) {}
   public get audioPlayerController(): IAudioPlayerActionsController {
-    return this.diContainer.get<IAudioPlayerActionsController>(diTokens.AUDIO_PLAYER_CONTROLLER);
+    return this._diContainer.get<IAudioPlayerActionsController>(diTokens.AUDIO_PLAYER_CONTROLLER);
   }
 }

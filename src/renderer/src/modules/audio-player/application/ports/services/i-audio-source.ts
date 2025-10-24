@@ -2,6 +2,7 @@ export interface IAudioSource {
   play(): void;
   pause(): void;
   stop(): void;
+  seek(playbackPosition: number): void;
   dispose(): void;
 }
 
@@ -12,5 +13,8 @@ export type AudioSourceConfig = Partial<{
 }>;
 
 export interface IAudioSourceManager extends Omit<IAudioSource, 'dispose'> {
-  load(path: string, config: AudioSourceConfig): void;
+  load(
+    source: { audioBuffer: Buffer<ArrayBufferLike>; mimeType: string },
+    config: AudioSourceConfig
+  ): void;
 }

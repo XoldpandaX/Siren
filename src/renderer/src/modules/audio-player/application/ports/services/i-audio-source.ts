@@ -2,6 +2,7 @@ export interface IAudioSource {
   play(): void;
   pause(): void;
   stop(): void;
+  seek(playbackPosition: number): void;
   dispose(): void;
 }
 

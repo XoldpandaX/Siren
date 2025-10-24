@@ -1,0 +1,25 @@
+.range-bar {
+  $range-bar-height: 5px;
+  $range-bar__progress-height: $range-bar-height;
+  $range-bar__thumb-size: 15px;
+
+  position: relative;
+  background-color: white;
+  width: 300px;
+  height: $range-bar-height;
+
+  &__progress {
+    background-color: white;
+    height: $range-bar__progress-height;
+  }
+
+  &__thumb {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: $range-bar__thumb-size;
+    height: $range-bar__thumb-size;
+    background-color: red;
+    border-radius: 50%;
+  }
+}

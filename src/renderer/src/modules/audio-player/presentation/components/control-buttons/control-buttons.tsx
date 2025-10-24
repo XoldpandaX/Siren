@@ -6,7 +6,6 @@ import './control-buttons.scss';
 
 export const ControlButtons: FC = () => {
   const { audioPlayerController } = useControllersProvider();
-
   const isPlaying = audioPlayerController.useIsPlaying();
 
   return (

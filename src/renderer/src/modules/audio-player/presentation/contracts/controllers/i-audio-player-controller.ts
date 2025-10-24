@@ -7,4 +7,5 @@ export interface IAudioPlayerActionsController {
   playTrack(): void;
   pauseTrack(): void;
   stopTrack(): void;
+  seekTrack(playbackPosition: number): void;
 }

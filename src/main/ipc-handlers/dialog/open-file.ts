@@ -27,11 +27,11 @@ export const openFile = async (): Promise<IAudioTrackDTO | undefined> => {
     mimeType: getMimeTypeByCodec(metadata.format.codec),
     audioBuffer,
     no: metadata.common.track.no,
-    artist: metadata.common.artist || null,
-    title: metadata.common.title || null,
-    album: metadata.common.album || null,
-    year: metadata.common.year || null,
-    duration: metadata.format.duration || null,
+    artist: metadata.common.artist,
+    title: metadata.common.title,
+    album: metadata.common.album,
+    year: metadata.common.year,
+    duration: metadata.format.duration,
   };
 };
 

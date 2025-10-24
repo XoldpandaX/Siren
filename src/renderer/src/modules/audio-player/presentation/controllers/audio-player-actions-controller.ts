@@ -7,6 +7,7 @@ import type { IPlayTrackUseCase } from '../../domain/use-cases/i-play-track-use-
 import type { IPauseTrackUseCase } from '../../domain/use-cases/i-pause-track-use-case';
 import type { IStopTrackUseCase } from '../../domain/use-cases/i-stop-track-use-case';
 import type { IUpdateTrackPlaybackPosition } from '../../domain/use-cases/i-update-track-playback-position';
+import type { ISeekTrackUseCase } from '../../domain/use-cases/i-seek-track-use-case';
 import { diTokens } from '../../_composition/tokens';
 
 @injectable()
@@ -22,6 +23,8 @@ export class AudioPlayerActionsController implements IAudioPlayerActionsControll
     private readonly _pauseTrack: IPauseTrackUseCase,
     @inject(diTokens.STOP_TRACK_USE_CASE)
     private readonly _stopTrack: IStopTrackUseCase,
+    @inject(diTokens.SEEK_TRACK_USE_CASE)
+    private readonly _seekTrack: ISeekTrackUseCase,
     @inject(diTokens.UPDATE_TRACK_PLAYBACK_POSITION_USE_CASE)
     private readonly _updateTrackPlaybackPosition: IUpdateTrackPlaybackPosition
   ) {}
@@ -36,23 +39,11 @@ export class AudioPlayerActionsController implements IAudioPlayerActionsControll
 
   public async loadTrack(): Promise<void> {
     try {
-      const audioTrack = await this._loadTrack.exec({
-        config: {
-          onTimeUpdate: (playbackPosition) => {
-            const currentTrack = this._audioPlayerStore.getState().currentTrack;
-            if (!currentTrack) return;
-
-            this._audioPlayerStore.getState().setCurrentTrack(
-              this._updateTrackPlaybackPosition.exec({
-                currentTrack,
-                playbackPosition,
-              })
-            );
-          },
-        },
+      const loadedAudioTrack = await this._loadTrack.exec({
+        onTimeUpdate: this.onTrackTimeUpdate,
       });
 
-      this._audioPlayerStore.getState().setCurrentTrack(audioTrack);
+      this._audioPlayerStore.getState().setCurrentTrack(loadedAudioTrack);
       this._audioPlayerStore.getState().setIsPlaying(true);
     } catch (e) {
       console.error(e);
@@ -72,5 +63,21 @@ export class AudioPlayerActionsController implements IAudioPlayerActionsControll
   public stopTrack = (): void => {
     this._stopTrack.exec();
     this._audioPlayerStore.getState().setIsPlaying(false);
+  };
+
+  public seekTrack = (playbackPosition: number): void => {
+    this._seekTrack.exec(playbackPosition);
+  };
+
+  private onTrackTimeUpdate = (playbackPosition: number): void => {
+    const currentTrack = this._audioPlayerStore.getState().currentTrack;
+    if (!currentTrack) return;
+
+    this._audioPlayerStore.getState().setCurrentTrack(
+      this._updateTrackPlaybackPosition.exec({
+        currentTrack,
+        playbackPosition,
+      })
+    );
   };
 }

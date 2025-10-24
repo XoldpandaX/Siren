@@ -13,6 +13,6 @@ export const mapDtoToAudioTrack = (dto: IAudioTrackDTO): IAudioTrack =>
     duration: withDefault(dto.duration, 0),
   });
 
-function withDefault<T>(value: Nullable<T>, def: T): T {
+function withDefault<T>(value: Nullable<T> | undefined, def: T): T {
   return value ?? def;
 }

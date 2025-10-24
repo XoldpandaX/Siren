@@ -5,6 +5,7 @@ export class AudioSource {
   private _id: number | null = null;
   private _rafId: number | null = null;
   private _lastReportedSecond: number = -1;
+  private _isPaused = false;
 
   private readonly _source: Howl;
   private readonly _onTimeUpdate?: AudioSourceConfig['onTimeUpdate'];
@@ -14,7 +15,8 @@ export class AudioSource {
       src,
       html5: true,
       onplay: () => {
-        this._lastReportedSecond = -1; // Сбросить для немедленного обновления
+        this._lastReportedSecond = -1;
+        this._isPaused = false;
         this.updateProgress();
       },
       onstop: () => {
@@ -27,6 +29,7 @@ export class AudioSource {
         config?.onEnd?.();
       },
       onpause: () => {
+        this._isPaused = true;
         this.cancelProgress();
       },
     });
@@ -75,12 +78,11 @@ export class AudioSource {
   }
 
   private updateProgress(): void {
-    if (!this._id) return;
+    if (!this._id || this._isPaused) return;
 
     const currentTime = this._source.seek(this._id);
     const currentSecond = Math.floor(currentTime);
 
-    // Обновлять только когда секунда изменилась
     if (currentSecond !== this._lastReportedSecond) {
       if (this._onTimeUpdate) {
         this._onTimeUpdate(currentSecond);
